@@ -16,8 +16,8 @@
         }
         // else{
 
-        $query = "INSERT INTO users (username, user_password, user_email, user_role, user_image, user_firstname, user_lastname) ";
-        $query .= "VALUES ('$username', '$password', '$email', 'Subscriber', 'default.png', 'FIRST_NAME', 'LAST_NAME');";
+        $query = "INSERT INTO users (username, user_password, user_email, user_role, user_image, user_firstname, user_lastname, user_randSalt) ";
+        $query .= "VALUES ('$username', '$password', '$email', 'Subscriber', 'default.png', 'FIRST_NAME', 'LAST_NAME', 'abc');";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ".mysqli_error($connection));
