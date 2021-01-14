@@ -271,7 +271,7 @@
     function display_all_users(){
         global $connection;
         $user_id = $_SESSION['user_id'];
-        $query = "SELECT * FROM users WHERE user_id != $user_id;";
+        $query = "SELECT * FROM users WHERE user_id != $user_id AND user_role != 'Admin';";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die ("SERVICE UNAVAILABLE ".mysqli_error($connection));

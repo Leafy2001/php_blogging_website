@@ -7,23 +7,28 @@ if(isset($_POST['update_user'])){
     $user_firstname = $_POST['user_firstname'];
     $user_lastname = $_POST['user_lastname'];
     $user_password = $_POST['user_password'];
-    // $user_role = $_POST['user_role'];
     $user_email = $_POST['user_email'];
 
     $user_image = $_FILES['user_image']['name'];
     $user_image_temp = $_FILES['user_image']['tmp_name'];
-
-    
 
     if(empty($user_image)){
         $query = "SELECT * FROM users WHERE user_id = $user_id LIMIT 1";
         $select_img = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($select_img);
         $new_name = $row['user_image'];
+        $orignal_password = $row['user_password'];
+        $salt = $row['user_randSalt'];
     }else{
         $milliseconds = round(microtime(true) * 1000);
         $new_name = $milliseconds.$user_image;
         move_uploaded_file($user_image_temp, "../images/$new_name");
+    }
+
+    if(empty($user_password)){
+        $user_password = $orignal_password;
+    }else{
+        $user_password = crypt($user_password, $salt);
     }
 
     $query = "UPDATE users ";
@@ -34,9 +39,8 @@ if(isset($_POST['update_user'])){
     $query .= "user_email = '$user_email', ";
     $query .= "user_image = '$new_name', ";
     $query .= "user_password = '$user_password' ";
-    // $query .= "user_role = '$user_role' ";
     $query .= "WHERE user_id = $user_id;";
-    // echo $query;
+    
     $result = mysqli_query($connection, $query);
     if(!$result){
         die("ERROR OCCURED ".mysqli_error($connection));
@@ -46,8 +50,6 @@ if(isset($_POST['update_user'])){
     $_SESSION['user_lastname'] = $user_lastname;
     $_SESSION['user_email'] = $user_email;
     $_SESSION['user_image'] = $new_name;
-    // $_SESSION['user_role'] = $user_role;
-    $_SESSION['user_password'] = $user_password;
 
     header("Location: profile.php");
 }
@@ -78,7 +80,7 @@ if(isset($_POST['update_user'])){
 
                     <div class="form-group">
                         <label for="author">Password</label>
-                        <input type="text" class="form-control" name = "user_password" value="<?php echo $_SESSION['user_password'] ?>"/>
+                        <input type="text" class="form-control" name = "user_password"/>
                     </div>
 
                     <div class="form-group">

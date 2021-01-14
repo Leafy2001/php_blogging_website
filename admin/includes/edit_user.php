@@ -18,10 +18,18 @@ if(isset($_POST['update_user'])){
         $select_img = mysqli_query($connection, $query);
         $row = mysqli_fetch_assoc($select_img);
         $new_name = $row['user_image'];
+        $orignal_password = $row['user_password'];
+        $salt = $row['user_randSalt'];
     }else{
         $milliseconds = round(microtime(true) * 1000);
         $new_name = $milliseconds.$user_image;
         move_uploaded_file($user_image_temp, "../images/$new_name");
+    }
+
+    if(empty($user_password)){
+        $user_password = $orignal_password;
+    }else{
+        $user_password = crypt($user_password, $salt);
     }
 
     $query = "UPDATE users ";
@@ -31,6 +39,7 @@ if(isset($_POST['update_user'])){
     $query .= "user_lastname = '$user_lastname', ";
     $query .= "user_email = '$user_email', ";
     $query .= "user_image = '$new_name', ";
+    $query .= "user_password = '$user_password', ";
     $query .= "user_role = '$user_role' WHERE user_id = $user_id;";
     // echo $query;
     $result = mysqli_query($connection, $query);
@@ -73,7 +82,7 @@ if(isset($_GET['user_id'])){
 
     <div class="form-group">
         <label for="author">Password</label>
-        <input type="text" class="form-control" name = "password" value="<?php echo $user_password ?>"/>
+        <input type="text" class="form-control" name = "user_password"/>
     </div>
 
     <div class="form-group">

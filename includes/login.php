@@ -12,7 +12,8 @@ if(isset($_POST['Login'])){
         die("BAD DATA ".mysqli_error($connection));
     }
     if(mysqli_num_rows($result) == 0){
-        die('Incorrect Username');
+        header("Location: ../index.php");
+        die;
     }
     $row = mysqli_fetch_assoc($result);
 
@@ -24,6 +25,10 @@ if(isset($_POST['Login'])){
     $user_email = $row['user_email'];
     $user_image = $row['user_image'];
     $user_role = $row['user_role'];
+    $user_randSalt = $row['user_randSalt'];
+
+    $password = crypt($password, $user_randSalt);
+
     if($db_username !== $username || $db_password !== $password){
         header("Location: ../index.php");
         die;
@@ -36,7 +41,6 @@ if(isset($_POST['Login'])){
     $_SESSION['user_email'] = $user_email;
     $_SESSION['user_image'] = $user_image;
     $_SESSION['user_role'] = $user_role;
-    $_SESSION['user_password'] = $db_password;  
 
     header("Location: ../admin/index.php");
 }else{

@@ -8,6 +8,7 @@ if(isset($_SESSION['user_id'])){
     $_SESSION['user_email'] = null;
     $_SESSION['user_image'] = null;
     $_SESSION['user_role'] = null;
+    $_SESSION['user_password'] = null;
     
 }
     header("Location: ../index.php");
