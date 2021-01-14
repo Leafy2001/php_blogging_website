@@ -35,7 +35,7 @@ global $connection;
                     <a href="#"><?php echo $row['post_title'] ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $row['post_author'] ?></a>
+                    <h3 style="color:DeepPink;">by <?php echo $row['post_author'] ?></h3>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['post_date'] ?></p>
                 <hr>
