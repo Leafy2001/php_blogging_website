@@ -9,10 +9,14 @@ if(isset($_POST['add_user'])){
     $user_image_temp = $_FILES['user_image']['tmp_name'];
     $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
     
-    $milliseconds = round(microtime(true) * 1000);
-    $new_name = $milliseconds.$post_image;
+    if(empty($user_image)){
+        $new_name = 'default.png';
+    }else{
+        $milliseconds = round(microtime(true) * 1000);
+        $new_name = $milliseconds.$user_image;
+        move_uploaded_file($user_image_temp, "../images/$new_name");
+    }
     
-    move_uploaded_file($user_image_temp, "../images/$new_name");
     $query = "INSERT INTO users (username, user_firstname, user_lastname, user_password, user_email, user_image, user_role) VALUES ( ";
     $query .= "'$username', '$user_firstname', '$user_lastname', '$user_password', '$user_email', '$new_name', '$user_role');";
     $result = mysqli_query($connection, $query);

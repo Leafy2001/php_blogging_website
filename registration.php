@@ -8,22 +8,35 @@
         $password = mysqli_real_escape_string($connection, $_POST['password']);
         $confirm_password = mysqli_real_escape_string($connection, $_POST['confirm_password']);
 
-        echo $username." ".$email." ".$password." ".$confirm_password."<br/>";
-        if($password !== $confirm_password || strlen($username) == 0 
-            || strlen($email) == 0 || strlen($password) == 0){
+        // echo $username." ".$password." ".$confirm_password;
+        if($password !== $confirm_password){
+            // echo "PASSWORD AND CONFIRM PASSWORD DONT MATCH";
             header("Location: registration.php");
             die;
         }
-        // else{
+        if(strlen($username) == 0 || strlen($email) == 0 || strlen($password) == 0){
+            // echo "BAD USERNAME/PASSWORD";
+            header("Location: registration.php");
+            die;
+        }
 
-        $query = "INSERT INTO users (username, user_password, user_email, user_role, user_image, user_firstname, user_lastname, user_randSalt) ";
-        $query .= "VALUES ('$username', '$password', '$email', 'Subscriber', 'default.png', 'FIRST_NAME', 'LAST_NAME', 'abc');";
+        $query = "SELECT user_randSalt FROM users WHERE user_randSalt != '' LIMIT 1";
+        $result = mysqli_query($connection, $query);
+        if(!$result){
+            die("ERROR ".mysqli_error($connection));
+        }
+        $row = mysqli_fetch_assoc($result);
+        $salt = $row['user_randSalt'];
+
+        $password = crypt($password, $salt);
+
+        $query = "INSERT INTO users (username, user_password, user_email, user_role, user_image, user_firstname, user_lastname) ";
+        $query .= "VALUES ('$username', '$password', '$email', 'Subscriber', 'default.png', 'FIRST_NAME', 'LAST_NAME');";
         $result = mysqli_query($connection, $query);
         if(!$result){
             die("ERROR ".mysqli_error($connection));
         }
         header("Location: index.php");
-    // }
     }
 
 ?>
