@@ -36,7 +36,10 @@ include "./includes/db.php";
                     <a href="post.php?post_id=<?php echo $row['post_id'] ?>"><?php echo $row['post_title'] ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $row['post_author'] ?></a>
+                    <!-- by  -->
+                        <!-- <a href="index.php"> -->
+                            <h3 style="color:DeepPink;">by <?php echo $row['post_author'] ?></h3>
+                        <!-- </a> -->
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['post_date'] ?></p>
                 <hr>
