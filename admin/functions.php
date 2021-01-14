@@ -289,8 +289,14 @@
                 <td><img src="../images/<?php echo $row['user_image'];?>" width = "100" alt = <?php echo $row['user_image']; ?>/></td>
                 <td><?php echo $row['user_role']; ?></td>
                 
-                <td><a href = "users.php?delete=<?php echo $row['user_id']?>">X</td>
-                <td><a href = "users.php?source=edit_user&user_id=<?php echo $row['user_id'];?>">Update</td>
+                <td><a 
+                onclick="return confirm('Are u sure u wanna delete user:\' <?php echo $row['username']; ?> \'?');"
+                href = "users.php?delete=<?php echo $row['user_id']?>">X</td>
+                <td>
+                    <a href = "users.php?source=edit_user&user_id=<?php echo $row['user_id'];?>">
+                        Update
+                    </a>
+                </td>
             </tr>
     <?php    
             }
