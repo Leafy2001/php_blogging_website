@@ -44,8 +44,8 @@ if(isset($_POST['update_user'])){
     $query .= "user_lastname = '$user_lastname', ";
     $query .= "user_email = '$user_email', ";
     $query .= "user_image = '$new_name', ";
-    $query .= "user_password = '$user_password', ";
-    $query .= "user_role = '$user_role' WHERE user_id = $user_id;";
+    $query .= "user_password = '$user_password' ";
+    $query .= "WHERE user_id = $user_id;";
     // echo $query;
     $result = mysqli_query($connection, $query);
     if(!$result){
