@@ -23,7 +23,7 @@
                         }
 
                         switch($source){
-                            case 'add_post': include "./includes/add_post.php"; break;
+                            // case 'add_post': include "./includes/add_post.php"; break;
                             case 'approve' : approve_comment(); break;
                             case 'unapprove' : unapprove_comment(); break;
                             default : include "./includes/view_all_comments.php";
